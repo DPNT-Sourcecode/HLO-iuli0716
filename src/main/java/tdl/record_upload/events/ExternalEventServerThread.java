@@ -28,6 +28,7 @@ public class ExternalEventServerThread implements Stoppable {
         threadPool.setName("ExEvent");
         server = new Server(threadPool);
         server.setStopTimeout(1000);
+        server.setStopAtShutdown(false);
 
         // Add the http connector
         ServerConnector http = new ServerConnector(server);
