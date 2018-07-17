@@ -1,5 +1,6 @@
 package tdl.record_upload.events;
 
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -26,7 +27,6 @@ public class ExternalEventServerThread implements Stoppable {
         QueuedThreadPool threadPool = new QueuedThreadPool(4, 1);
         threadPool.setName("ExEvent");
         server = new Server(threadPool);
-        server.setStopTimeout(1);
 
         // Add the http connector
         ServerConnector http = new ServerConnector(server);
@@ -61,6 +61,9 @@ public class ExternalEventServerThread implements Stoppable {
     @Override
     public void signalStop() throws Exception {
         server.stop();
+        for (Connector connector : server.getConnectors()) {
+            connector.stop();
+        }
     }
 
     //~~~~~~~~~ The listeners
