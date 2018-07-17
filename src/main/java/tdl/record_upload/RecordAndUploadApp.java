@@ -136,9 +136,6 @@ public class RecordAndUploadApp {
             stoppable.join();
         }
 
-        externalEventServerThread.signalStop();
-        externalEventServerThread.join();
-
         // Finalise the upload and cancel tasks
         stopFileLogging();
         remoteSyncTask.finalRun();
