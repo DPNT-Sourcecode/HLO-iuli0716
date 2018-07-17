@@ -123,16 +123,12 @@ public class RecordAndUploadApp {
         metricsReportingTask.scheduleReportMetricsEvery(Duration.of(2, ChronoUnit.SECONDS));
 
         // Start the event server
-        log.info("Before");
         externalEventServerThread.start();
-        log.info("After");
-
-//        serviceThreadsToStop.add(externalEventServerThread);
+        serviceThreadsToStop.add(externalEventServerThread);
 
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
         for (Stoppable stoppable : serviceThreadsToStop) {
-            log.info("Waiting for "+stoppable.getClass()+" to join");
             stoppable.join();
         }
 

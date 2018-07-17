@@ -1,6 +1,5 @@
 package tdl.record_upload.events;
 
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class ExternalEventServerThread implements Stoppable {
     private static final int PORT = 41375;
     private Server server;
@@ -100,7 +98,6 @@ public class ExternalEventServerThread implements Stoppable {
 
             try {
                 for (ExternalEventListener externalEventListener : listeners) {
-                    log.debug("Notifu");
                     externalEventListener.process(body.trim());
                 }
                 resp.setContentType("text/plain");
