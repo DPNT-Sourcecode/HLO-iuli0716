@@ -124,7 +124,8 @@ public class RecordAndUploadApp {
 
         // Start the event server
         externalEventServerThread.start();
-
+        serviceThreadsToStop.add(externalEventServerThread);
+        
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
         for (Stoppable stoppable : serviceThreadsToStop) {
