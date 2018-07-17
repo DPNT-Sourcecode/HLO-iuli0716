@@ -81,6 +81,7 @@ public class ExternalEventServerThread implements Stoppable {
             resp.setContentType("text/plain");
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println("OK");
+            resp.getWriter().flush();
         }
     }
 
@@ -100,12 +101,14 @@ public class ExternalEventServerThread implements Stoppable {
                 resp.setContentType("text/plain");
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.getWriter().println("ACK");
+                resp.getWriter().flush();
                 for (ExternalEventListener externalEventListener : listeners) {
                     externalEventListener.process(body.trim());
                 }
             } catch (Exception e) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().println(e.getMessage());
+                resp.getWriter().flush();
             }
         }
 
