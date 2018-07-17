@@ -124,10 +124,6 @@ public class RecordAndUploadApp {
 
         // Start the event server
         externalEventServerThread.start();
-        serviceThreadsToStop.add(externalEventServerThread);
-
-        // Register itself on the stop command
-        externalEventServerThread.addStopListener(eventPayload -> externalEventServerThread.signalStop());
 
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
