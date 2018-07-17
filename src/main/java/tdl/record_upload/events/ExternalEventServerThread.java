@@ -32,6 +32,8 @@ public class ExternalEventServerThread implements Stoppable {
         ServerConnector http = new ServerConnector(server);
         http.setHost("localhost");
         http.setPort(PORT);
+        http.setStopTimeout(100);
+        http.setIdleTimeout(100);
         server.addConnector(http);
 
         // Prepare listeners
