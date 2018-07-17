@@ -141,7 +141,7 @@ public class RecordAndUploadApp {
 
         // Join the event thread
         externalEventServerThread.join();
-        log.info("~~~~~~ All Stopped ~~~~~~");
+        log.info("~~~~~~ Stopped ~~~~~~");
     }
 
     private static void startVideoRecording(String localStorageFolder, String timestamp,
