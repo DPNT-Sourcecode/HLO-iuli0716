@@ -124,7 +124,6 @@ public class RecordAndUploadApp {
 
         // Start the event server
         externalEventServerThread.start();
-        externalEventServerThread.addStopListener(eventPayload -> System.exit(0));
 
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
@@ -143,6 +142,8 @@ public class RecordAndUploadApp {
         // Join the event thread
         externalEventServerThread.join();
         log.info("~~~~~~ Stopped ~~~~~~");
+        
+        System.exit(0);
     }
 
     private static void startVideoRecording(String localStorageFolder, String timestamp,
@@ -164,6 +165,8 @@ public class RecordAndUploadApp {
         NoVideoDummyThread noVideo = new NoVideoDummyThread();
         serviceThreadsToStop.add(noVideo);
         monitoredSubjects.add(noVideo);
+        externalEventServerThread.addStopListener(eventPayload -> noVideo.signalStop());
+
     }
 
     private static void startSourceCodeRecording(String localStorageFolder, String localSourceCodeFolder, String timestamp,
@@ -179,6 +182,7 @@ public class RecordAndUploadApp {
         serviceThreadsToStop.add(sourceCodeRecordingThread);
         monitoredSubjects.add(new SourceCodeRecordingStatus(sourceCodeRecordingMetricsCollector));
         externalEventServerThread.addNotifyListener(sourceCodeRecordingThread::tagCurrentState);
+        externalEventServerThread.addStopListener(eventPayload -> sourceCodeRecordingThread.signalStop());
     }
 
     private static void registerShutdownHook(List<Stoppable> servicesToStop) {
