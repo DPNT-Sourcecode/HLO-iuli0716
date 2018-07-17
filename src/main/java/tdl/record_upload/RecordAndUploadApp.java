@@ -142,8 +142,9 @@ public class RecordAndUploadApp {
         // Join the event thread
         externalEventServerThread.join();
         log.info("~~~~~~ Stopped ~~~~~~");
-        Runtime.getRuntime().runFinalization();
-        Runtime.getRuntime().gc();
+
+        // Forcefully stop. A problem with Jetty finalisation might prevent the JVM from stopping
+        Runtime.getRuntime().halt(0);
     }
 
     private static void startVideoRecording(String localStorageFolder, String timestamp,
