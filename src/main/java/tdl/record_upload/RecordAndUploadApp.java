@@ -137,6 +137,7 @@ public class RecordAndUploadApp {
         }
 
         externalEventServerThread.signalStop();
+        externalEventServerThread.join();
 
         // Finalise the upload and cancel tasks
         stopFileLogging();
