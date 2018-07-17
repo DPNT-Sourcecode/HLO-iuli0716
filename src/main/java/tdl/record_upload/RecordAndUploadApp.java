@@ -124,8 +124,6 @@ public class RecordAndUploadApp {
 
         // Start the event server
         externalEventServerThread.start();
-        serviceThreadsToStop.add(externalEventServerThread);
-        externalEventServerThread.addStopListener(eventPayload -> externalEventServerThread.signalStop());
 
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
@@ -133,10 +131,16 @@ public class RecordAndUploadApp {
             stoppable.join();
         }
 
+        // If all are joined, signal the event thread to stop
+        externalEventServerThread.signalStop();
+
         // Finalise the upload and cancel tasks
         stopFileLogging();
         remoteSyncTask.finalRun();
         metricsReportingTask.cancel();
+
+        // Join the event thread
+        externalEventServerThread.join();
     }
 
     private static void startVideoRecording(String localStorageFolder, String timestamp,
