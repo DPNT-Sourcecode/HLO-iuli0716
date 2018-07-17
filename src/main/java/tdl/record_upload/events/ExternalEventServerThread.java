@@ -61,9 +61,6 @@ public class ExternalEventServerThread implements Stoppable {
     @Override
     public void signalStop() throws Exception {
         server.stop();
-        for (Connector connector : server.getConnectors()) {
-            connector.stop();
-        }
     }
 
     //~~~~~~~~~ The listeners
