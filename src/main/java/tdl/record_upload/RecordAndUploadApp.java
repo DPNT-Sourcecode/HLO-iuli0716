@@ -127,8 +127,7 @@ public class RecordAndUploadApp {
         externalEventServerThread.start();
         log.info("After");
 
-        serviceThreadsToStop.add(externalEventServerThread);
-        externalEventServerThread.addStopListener(eventPayload -> externalEventServerThread.signalStop());
+//        serviceThreadsToStop.add(externalEventServerThread);
 
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
@@ -136,6 +135,8 @@ public class RecordAndUploadApp {
             log.info("Waiting for "+stoppable.getClass()+" to join");
             stoppable.join();
         }
+
+        externalEventServerThread.signalStop();
 
         // Finalise the upload and cancel tasks
         stopFileLogging();
