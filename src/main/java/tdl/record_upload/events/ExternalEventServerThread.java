@@ -97,12 +97,12 @@ public class ExternalEventServerThread implements Stoppable {
             String body = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 
             try {
-                for (ExternalEventListener externalEventListener : listeners) {
-                    externalEventListener.process(body.trim());
-                }
                 resp.setContentType("text/plain");
                 resp.setStatus(HttpServletResponse.SC_OK);
                 resp.getWriter().println("ACK");
+                for (ExternalEventListener externalEventListener : listeners) {
+                    externalEventListener.process(body.trim());
+                }
             } catch (Exception e) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().println(e.getMessage());
