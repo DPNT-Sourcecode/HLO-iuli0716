@@ -129,6 +129,7 @@ public class RecordAndUploadApp {
         // Wait for the stop signal and trigger a graceful shutdown
         registerShutdownHook(serviceThreadsToStop);
         for (Stoppable stoppable : serviceThreadsToStop) {
+            log.info("Waiting for "+stoppable.getClass()+" to join");
             stoppable.join();
         }
 
