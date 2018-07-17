@@ -123,7 +123,10 @@ public class RecordAndUploadApp {
         metricsReportingTask.scheduleReportMetricsEvery(Duration.of(2, ChronoUnit.SECONDS));
 
         // Start the event server
+        log.info("Before");
         externalEventServerThread.start();
+        log.info("After");
+
         serviceThreadsToStop.add(externalEventServerThread);
 
         // Wait for the stop signal and trigger a graceful shutdown
